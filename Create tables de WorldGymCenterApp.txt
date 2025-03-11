@@ -1,0 +1,66 @@
+-- world_gym_center_app_db.calendario definition
+
+CREATE TABLE `calendario` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `tipo` varchar(255) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `duracion` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- world_gym_center_app_db.clientes definition
+
+CREATE TABLE `clientes` (
+  `dni` varchar(255) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `apellidos` varchar(255) DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `contrasena` varchar(255) NOT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `fecha_cuota` date DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`dni`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- world_gym_center_app_db.ejercicios definition
+
+CREATE TABLE `ejercicios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `musculo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- world_gym_center_app_db.notificaciones definition
+
+CREATE TABLE `notificaciones` (
+  `id_notificacion` int NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(255) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `url_foto` varchar(255) DEFAULT NULL,
+  `fecha` datetime NOT NULL,
+  PRIMARY KEY (`id_notificacion`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- world_gym_center_app_db.ejerciciosfav definition
+
+CREATE TABLE `ejerciciosfav` (
+  `dni` varchar(255) NOT NULL,
+  `ejercicio_id` int NOT NULL,
+  `fecha_agregado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `musculo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`dni`,`ejercicio_id`),
+  KEY `ejercicio_id` (`ejercicio_id`),
+  CONSTRAINT `ejerciciosfav_ibfk_2` FOREIGN KEY (`ejercicio_id`) REFERENCES `ejercicios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_ejerciciosfav_clientes` FOREIGN KEY (`dni`) REFERENCES `clientes` (`dni`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
